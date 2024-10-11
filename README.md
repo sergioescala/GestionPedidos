@@ -15,11 +15,9 @@ Tecnologías Utilizadas
 - **Base de Datos**: PostgreSQL
 - **Containerización**: Docker
 - **Orquestación**: Docker Compose
-- **Testing**: JUnit 5, Mockito
-- **Documentación API**: Swagger (Springfox)
-- **Seguridad**: Spring Security
+- **Testing**: JUnit, Mockito
+- **Documentación API**: Swagger 
 - **Monitoreo**: Spring Boot Actuator
-- **Logging**: Log4j2
 
 ---
 
