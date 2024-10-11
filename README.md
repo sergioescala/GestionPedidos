@@ -393,6 +393,6 @@ Para asegurar la resiliencia del sistema ante fallos de comunicación, se implem
 
 - Timeouts: Configurar tiempos de espera para las llamadas HTTP para evitar bloqueos indefinidos.
 - Retries: Intentar nuevamente las llamadas fallidas un número limitado de veces.
-- Circuit Breaker: Implementar patrones de circuit breaker (por ejemplo, con Resilience4j) para evitar sobrecargar los servicios cuando uno de ellos está fallando.
+- Circuit Breaker: Implementar patrones de circuit breaker para evitar sobrecargar los servicios cuando uno de ellos está fallando.
 - Fallbacks: Definir comportamientos alternativos cuando un servicio no está disponible.
 
