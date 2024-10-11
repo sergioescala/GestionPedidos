@@ -114,16 +114,12 @@ Crear un Nuevo Pedido
 URL: /orders
 Método: POST
 Cuerpo de la Solicitud:
-json
-Copiar código
 {
   "customerId": 1,
   "productId": 101,
   "status": "pendiente"
 }
 Respuesta:
-json
-Copiar código
 {
   "id": 1,
   "customerId": 1,
@@ -138,8 +134,6 @@ Consultar un Pedido por ID
 URL: /orders/{id}
 Método: GET
 Respuesta:
-json
-Copiar código
 {
   "id": 1,
   "customerId": 1,
@@ -155,8 +149,6 @@ Listar Todos los Pedidos
 URL: /orders
 Método: GET
 Respuesta:
-json
-Copiar código
 [
   {
     "id": 1,
@@ -182,8 +174,6 @@ Método: PUT
 Parámetros de Consulta:
 status: Nuevo estado del pedido (e.g., procesado, entregado)
 Respuesta:
-json
-Copiar código
 {
   "id": 1,
   "customerId": 1,
