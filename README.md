@@ -275,15 +275,17 @@ Para convertir el proyecto Spring Boot en una función lambda, haremos lo siguie
 
 Añadir la dependencia de Spring Cloud Function al archivo pom.xml:
 
+```
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-function-adapter-aws</artifactId>
     <version>3.2.7</version> <!-- Ajusta la versión según tu caso -->
 </dependency>
-
+```
 
 2. Crear un bean que represente la lógica de la función, por ejemplo:
 
+```
 @Bean
 public Function<OrderRequest, OrderResponse> createOrder() {
     return orderRequest -> {
@@ -294,15 +296,18 @@ public Function<OrderRequest, OrderResponse> createOrder() {
         return response;
     };
 }
+```
 
 
 Luego empaquetamos la aplicación para AWS Lambda, debes crear un fat JAR con las dependencias necesarias. Al usar Spring Cloud Functiok se puede simplemente desplegar el JAR en Lambda. Usaremos AWS CLI para desplegarlo.
 
 Comando AWS CLI: 
 
+```
 aws lambda create-function --function-name gestion-pedidos \
 --zip-file fileb://target/jar-file.jar --handler com.ejemplo.Handler::handleRequest \
 --runtime java11 --role arn:aws:iam::rol-predeterminado
+```
 
 Integración con API Gateway
 
