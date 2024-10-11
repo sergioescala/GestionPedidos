@@ -326,8 +326,7 @@ Arquitectura de microservicios
 En un Sistema de Gestión de Pedidos basado en microservicios, cada componente del sistema está desacoplado y se encarga de una funcionalidad específica. 
 Esta arquitectura facilita la escalabilidad, el mantenimiento y la resiliencia del sistema.
 
---- 
-Visión General del Sistema
+Visión General 
 
 El Sistema de Gestión de Pedidos está compuesto por tres microservicios principales:
 
