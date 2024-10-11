@@ -313,5 +313,9 @@ Integración con API Gateway
 
 Usaremos AWS API Gateway para exponer un endpoint HTTP que pueda ser invocado para las operaciones CRUD. Para esto debemos configurar cada ruta en el API Gateway para que apunte a la función Lambda que creamos.
 
+Persistencia de datos:
+
+Podemos usar Amazon RDS o DynamoDB para almacenar los datos 
+
 
 
