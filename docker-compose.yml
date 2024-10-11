@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  orders-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ordersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - orders-db-data:/var/lib/postgresql/data
+    networks:
+      - orders-network
+    restart: always
+
+  orderservice:
+    build: ./OrderService
+    depends_on:
+      - orders-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://orders-db:5432/ordersdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - orders-network
+    restart: always
+
+volumes:
+  orders-db-data:
+
+networks:
+  orders-network:
