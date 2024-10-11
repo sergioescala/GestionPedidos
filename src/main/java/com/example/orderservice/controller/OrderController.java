@@ -39,9 +39,13 @@ public class OrderController {
    }
 
    @PutMapping("/{id}/status")
-   public Order updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
+   public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
        logger.info("Actualizando estado del pedido con ID: {} a '{}'", id, status);
-       return orderService.updateOrderStatus(id, status);
+       Order order = orderService.updateOrderStatus(id, status);
+       if (order == null) {
+           return ResponseEntity.notFound().build();
+       }
+       return ResponseEntity.ok(order);
    }
 
    @DeleteMapping("/{id}")
