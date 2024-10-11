@@ -3,6 +3,7 @@ spring:
     url: jdbc:postgresql://orders-db:5432/ordersdb
     username: postgres
     password: postgres
+    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: update
