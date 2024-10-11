@@ -206,6 +206,7 @@ Respuesta: 204 No Content
 ---
 
 Swagger UI
+
 Para una documentación interactiva de la API, se ha integrado Swagger UI. Accede a ella en:
 
 ```
@@ -215,6 +216,7 @@ http://localhost:8080/swagger-ui/
 ---
 
 Testing
+
 Tests Unitarios
 Se han implementado tests unitarios utilizando JUnit 5 y Mockito para asegurar la calidad y fiabilidad del código.
 
