@@ -318,4 +318,92 @@ Persistencia de datos:
 Podemos usar Amazon RDS o DynamoDB para almacenar los datos 
 
 
+---
+
+Arquitectura de microservicios 
+
+
+En un Sistema de Gestión de Pedidos basado en microservicios, cada componente del sistema está desacoplado y se encarga de una funcionalidad específica. 
+Esta arquitectura facilita la escalabilidad, el mantenimiento y la resiliencia del sistema.
+
+--- 
+Visión General del Sistema
+
+El Sistema de Gestión de Pedidos está compuesto por tres microservicios principales:
+
+1. OrderService: Gestiona las órdenes de los clientes.
+2. CustomerService: Gestiona la información de los clientes.
+3. ProductService: Gestiona el catálogo de productos.
+
+Estos microservicios se comunican entre sí para validar y procesar pedidos, asegurando que los clientes y productos existan y estén en el estado adecuado antes de proceder con la creación o actualización de un pedido.
+
+---
+
+OrderService
+
+- Responsabilidad: Maneja la creación, consulta, actualización y eliminación de pedidos.
+- Endpoints Principales:
+  - `POST /orders`: Crear un nuevo pedido.
+  - `GET /orders/{id}`: Consultar un pedido por su ID.
+  - `GET /orders`: Listar todos los pedidos.
+  - `PUT /orders/{id}/status`: Actualizar el estado de un pedido.
+  - `DELETE /orders/{id}`: Eliminar un pedido.
+- Base de Datos: `ordersdb` en PostgreSQL.
+
+CustomerService
+
+- Responsabilidad: Gestiona la información de los clientes, incluyendo creación, actualización y consulta de datos de clientes.
+- Endpoints Principales:
+  - `GET /customers/{id}`: Consultar un cliente por su ID.
+  - Otros endpoints para gestión completa de clientes.
+- Base de Datos: `customersdb` en PostgreSQL.
+
+ProductService
+
+- Responsabilidad: Gestiona el catálogo de productos, incluyendo creación, actualización y consulta de productos.
+- Endpoints Principales:
+  - `GET /products/{id}`: Consultar un producto por su ID.
+  - Otros endpoints para gestión completa de productos.
+- Base de Datos: `productsdb` en PostgreSQL.
+
+---
+
+Comunicación entre Microservicios
+
+Patrón de Comunicación
+
+La comunicación entre los microservicios se realiza mediante **APIs REST**. Cada microservicio expone endpoints específicos que permiten a otros servicios interactuar con él de manera estandarizada.
+
+APIs REST
+
+OrderService a CustomerService
+
+- Propósito: Verificar la existencia y validez de un cliente al crear o actualizar un pedido.
+- Endpoint Invocado:
+  - `GET /customers/{customerId}`
+- Flujo:
+  1. OrderService recibe una solicitud para crear un nuevo pedido.
+  2. Antes de proceder, OrderService realiza una llamada a `GET /customers/{customerId}` en CustomerService.
+  3. Si el cliente existe y está activo, OrderService continúa con la creación del pedido.
+  4. Si el cliente no existe o está inactivo, OrderService retorna un error.
+
+OrderService a ProductService
+
+- Propósito: Verificar la existencia y disponibilidad de un producto al crear o actualizar un pedido.
+- Endpoint Invocado:
+  - `GET /products/{productId}`
+- Flujo:
+  1. OrderService recibe una solicitud para crear un nuevo pedido.
+  2. OrderService realiza una llamada a `GET /products/{productId}` en ProductService.
+  3. Si el producto existe y está disponible, OrderService continúa con la creación del pedido.
+  4. Si el producto no existe o no está disponible, OrderService retorna un error.
+
+ Manejo de Errores y Resiliencia
+
+Para asegurar la resiliencia del sistema ante fallos de comunicación, se implementan las siguientes estrategias:
+
+- Timeouts: Configurar tiempos de espera para las llamadas HTTP para evitar bloqueos indefinidos.
+- Retries: Intentar nuevamente las llamadas fallidas un número limitado de veces.
+- Circuit Breaker: Implementar patrones de circuit breaker (por ejemplo, con Resilience4j) para evitar sobrecargar los servicios cuando uno de ellos está fallando.
+- Fallbacks: Definir comportamientos alternativos cuando un servicio no está disponible.
 
