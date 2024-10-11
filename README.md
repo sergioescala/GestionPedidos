@@ -172,7 +172,7 @@ Actualizar el Estado de un Pedido
 URL: /orders/{id}/status
 Método: PUT
 Parámetros de Consulta:
-status: Nuevo estado del pedido (e.g., procesado, entregado)
+status: Nuevo estado del pedido (procesado, entregado)
 Respuesta:
 {
   "id": 1,
@@ -361,7 +361,7 @@ Comunicación entre Microservicios
 
 Patrón de Comunicación
 
-La comunicación entre los microservicios se realiza mediante **APIs REST**. Cada microservicio expone endpoints específicos que permiten a otros servicios interactuar con él de manera estandarizada.
+La comunicación entre los microservicios se realiza mediante APIs REST. Cada microservicio expone endpoints específicos que permiten a otros servicios interactuar con él de manera estandarizada.
 
 APIs REST
 
