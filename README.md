@@ -283,7 +283,7 @@ Añadir la dependencia de Spring Cloud Function al archivo pom.xml:
 </dependency>
 ```
 
-2. Crear un bean que represente la lógica de la función, por ejemplo:
+Creamos el bean que represente la lógica de la función:
 
 ```
 @Bean
