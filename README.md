@@ -253,3 +253,60 @@ Para construir y levantar los contenedores, ejecuta:
 ```
 docker-compose up --build
 ```
+
+
+---
+
+Sobre Lambda 
+
+Para transformar el sistema de gestión de pedidos hecho en Spring Boot a AWS Lambda, hay que realizar algunos cambios, ya que AWS Lambda está basado en una arquitectura serverless y la manera en la que funciona es diferente de la arquitectura tradicional en la que se ejecuta una aplicación Spring Boot. 
+
+Un enfoque sería dividir las funcionalidades del sistema de pedidos en funciones más pequeñas, siguiendo el patrón de microservicios.
+
+Cada CRUD (Create, Read, Update, Delete) puede ser una Lambda independiente o bien se podria tener una sola Lambda que maneje diferentes operaciones según la solicitud.
+
+Independiente del enfoque, hay que extraer la lógica del controlador de Spring Boot a una lógica que pueda ser ejecutada dentro de una Handler de Lambda.
+
+Por ejemplo, se puede utilizar AWS API Gateway para recibir las solicitudes HTTP y luego invocar el Lambda, que procesará la solicitud y devolverá la respuesta.
+
+Todo lo anterior se debe realizar con Spring Cloud Function que es una librería que facilita la transformación de una aplicación Spring Boot para que se ejecute en AWS Lambda con esto se puede reutilizar la lógica de la aplicación y adaptarla para ser usada como función lambda sin tener que reescribir la lógica completa.
+
+Para convertir el proyecto Spring Boot en una función lambda, haremos lo siguiente:
+
+Añadir la dependencia de Spring Cloud Function al archivo pom.xml:
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-function-adapter-aws</artifactId>
+    <version>3.2.7</version> <!-- Ajusta la versión según tu caso -->
+</dependency>
+
+
+2. Crear un bean que represente la lógica de la función, por ejemplo:
+
+@Bean
+public Function<OrderRequest, OrderResponse> createOrder() {
+    return orderRequest -> {
+        //Guardamos el OrderRequest en la BD, puede ser una DynamoDB 
+        OrderResponse response = new OrderResponse();
+        response.setMessage("Orden creada satisfactoriamente");
+        response.setOrderId(UUID.randomUUID().toString());
+        return response;
+    };
+}
+
+
+Luego empaquetamos la aplicación para AWS Lambda, debes crear un fat JAR con las dependencias necesarias. Al usar Spring Cloud Functiok se puede simplemente desplegar el JAR en Lambda. Usaremos AWS CLI para desplegarlo.
+
+Comando AWS CLI: 
+
+aws lambda create-function --function-name gestion-pedidos \
+--zip-file fileb://target/jar-file.jar --handler com.ejemplo.Handler::handleRequest \
+--runtime java11 --role arn:aws:iam::rol-predeterminado
+
+Integración con API Gateway
+
+Usaremos AWS API Gateway para exponer un endpoint HTTP que pueda ser invocado para las operaciones CRUD. Para esto debemos configurar cada ruta en el API Gateway para que apunte a la función Lambda que creamos.
+
+
+
